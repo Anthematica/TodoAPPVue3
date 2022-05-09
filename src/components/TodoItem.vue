@@ -14,12 +14,13 @@ const props = defineProps({
 console.log("A verrr", props.todos);
 
 const isEditing = ref(false);
+
 const name = ref(props.todos.name);
 
 // function handleUpdateText() {}
 
 async function handleChange(todo, text) {
-  const resp = ky
+  const resp = await ky
     .patch(`http://127.0.0.1:8000/api/v1/todos/${todo.id}`, {
       json: {
         status: !todo.status,
@@ -28,11 +29,16 @@ async function handleChange(todo, text) {
     })
     .json();
 
+  console.log("Resp: ", resp.data.status);
+  console.log("Props: ", props.todos.status);
+
   if (props.todos.id === todo.id) {
     props.todos.name = text;
   }
 
   isEditing.value = false;
+
+  props.todos.status = resp.data.status;
 }
 </script>
 
@@ -44,7 +50,7 @@ async function handleChange(todo, text) {
       <button @click="isEditing = false">Cancel</button>
     </template>
     <template v-else>
-      <p class="todo-info">
+      <p :class="todos.status ? 'todo_done' : 'todo_info'">
         <input
           type="checkbox"
           :checked="todos.status"
@@ -66,6 +72,7 @@ async function handleChange(todo, text) {
     </template>
   </div>
 </template>
+
 <style>
 .todos {
   width: 500px;
@@ -93,10 +100,14 @@ async function handleChange(todo, text) {
   border-radius: 2px;
 }
 
-.todo-info {
+.todo_info {
   display: flex;
   align-items: center;
   column-gap: 10px;
+}
+
+.todo_done {
+  text-decoration-line: line-through;
 }
 
 .edit_todo {

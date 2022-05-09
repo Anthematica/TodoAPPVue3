@@ -15,10 +15,6 @@ onBeforeMount(async () => {
   users.value = resp.data;
 });
 
-// function handleSubmit() {
-//   emit("submit", values.value);
-// }
-
 function handleSubmitTodo() {
   handleSubmit(values.value);
 }
