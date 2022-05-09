@@ -1,6 +1,6 @@
 <script setup>
 import ky from "ky";
-import { onBeforeMount, ref } from "vue";
+import { onBeforeMount, ref, inject } from "vue";
 
 const users = ref([]);
 const values = ref({
@@ -8,20 +8,24 @@ const values = ref({
   user_id: "",
 });
 
-const emit = defineEmits(["submit"]);
+const { handleSubmit } = inject("todos");
 
 onBeforeMount(async () => {
   const resp = await ky.get("http://127.0.0.1:8000/api/v1/users").json();
   users.value = resp.data;
 });
 
-function handleSubmit() {
-  emit("submit", values.value);
+// function handleSubmit() {
+//   emit("submit", values.value);
+// }
+
+function handleSubmitTodo() {
+  handleSubmit(values.value);
 }
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit" className="form_container">
+  <form @submit.prevent="handleSubmitTodo" className="form_container">
     <h1>Write your things to do down here, little bastard</h1>
     <div className="input_container">
       <input

@@ -9,7 +9,7 @@ defineProps({
 </script>
 <template>
   <div v-for="todo in todos" :key="todo.id" className="container_todo">
-    <TodoItem :todos="todo" @delete="(id) => $emit('delete', id)" />
+    <TodoItem :todos="todo" />
   </div>
 </template>
 <style>

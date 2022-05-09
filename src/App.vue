@@ -3,7 +3,12 @@ import ky from "ky";
 import TodoForm from "./components/TodoForm.vue";
 import TodoList from "./components/TodoList.vue";
 
-import { onBeforeMount, ref } from "vue";
+import { onBeforeMount, ref, provide } from "vue";
+
+provide("todos", {
+  handleDelete,
+  handleSubmit,
+});
 
 const todos = ref([]); //crea una referencia
 
@@ -37,8 +42,8 @@ async function handleDelete(id) {
 </script>
 
 <template>
-  <TodoForm @submit="handleSubmit" />
-  <TodoList :todos="todos" @delete="handleDelete" />
+  <TodoForm />
+  <TodoList :todos="todos" />
 </template>
 
 <style></style>
