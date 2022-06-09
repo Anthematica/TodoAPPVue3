@@ -22,7 +22,7 @@ function handleSubmitTodo() {
 
 <template>
   <form @submit.prevent="handleSubmitTodo" className="form_container">
-    <h1>Write your things to do down here, little bastard</h1>
+    <h1>Write your things to do down here</h1>
     <div className="input_container">
       <input
         name="name"
